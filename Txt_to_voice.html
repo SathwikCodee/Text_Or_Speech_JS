@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Txt_to_voice.css">
+    <link rel="icon" href="img/pngfind.com-sound-png-748522.png" type="icon/x-icon">
+    <title>TEXT OR VOICE</title>
+</head>
+<body>
+    <div class="background"></div>
+
+    <div class="content">
+
+        <div class="content-heading">
+            <h1> TEXT-OR-SPEECH <span style="color: red;font-weight: bold;font-style: italic; text-decoration: underline white 5.5px;">CONVERTOR</span></h1>
+        </div>
+
+        <div class="textarea-div">
+            <textarea placeholder="write here some thing to listen..." id="textarea"></textarea>
+        </div>
+
+        <div class="speakingPart">
+            <div>
+                <select id="voicesSelection"></select>
+            </div>
+            <div>
+                <button id="listen"><span style="font-size: 20px;">&#9654;</span> PLAY </button>
+            </div>    
+        </div>
+
+        <div class="listeningPart">
+            <button id="start-btn" >Start Listening</button>
+            <button id="stop-btn" disabled>Stop Listening</button>
+        </div>
+
+    </div>
+    <script src="Txt_to_voice.js"></script>
+    <script>
+
+        // Check if the browser supports the Web Speech API
+        if ('webkitSpeechRecognition' in window) {
+
+            let startButton = document.getElementById('start-btn');
+			let stopButton = document.getElementById('stop-btn');
+			let resultElement = document.getElementById('textarea');
+
+			let recognition = new webkitSpeechRecognition();
+
+			recognition.lang = window.navigator.language;
+			recognition.interimResults = true;
+
+			startButton.addEventListener('click', () => { recognition.start(); });
+			stopButton.addEventListener('click', () => { recognition.stop(); });
+
+			recognition.addEventListener('result', (event) => {
+				const result = event.results[event.results.length - 1][0].transcript;
+				resultElement.textContent = result;
+			});
+
+        }
+         else {
+            alert('Your browser does not support the Web Speech API');
+        }
+    </script>
+</body>
+</html>
